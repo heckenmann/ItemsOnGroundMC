@@ -1,0 +1,10 @@
+{
+  "uuid": "%uuid%",
+  "name": "ItemsOnGround",
+  "mainClass": "de.heckenmann.mc.itemsonground.ItemsOnGroundAddon",
+  "description": "Highlights items on the ground!",
+  "version": 1.0,
+  "author": "heckenmann",
+  "category": 4,
+  "icon": "https://github.com/heckenmann/ItemsOnGroundMC/raw/master/screenshot_64_64.png"
+}

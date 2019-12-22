@@ -1,0 +1,39 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+gradle-wrapper.jar
+
+# other
+eclipse
+run
+
+# minecraft
+saves/
+crash-reports/
+usercache.json
+usernamecache.json
+logs/
+mods/
+resourcepacks/
+LabyMod/
+server-resource-packs/
+config/
+options.txt
+
+# labymod
+libs/
