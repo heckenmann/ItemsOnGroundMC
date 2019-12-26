@@ -19,15 +19,19 @@ public class ItemsOnGroundForgeListener {
   private ParticleFlame.Factory particleFlameFactory;
   private IParticleFactory particleCloudFactory;
 
+  public ItemsOnGroundForgeListener() {
+    this.createParticleFactory();
+  }
+
   @SubscribeEvent
   public void onTick(FOVUpdateEvent event) {
-    createParticleFactory();
     World world = Minecraft.getMinecraft().world;
     if (world == null) return;
-    world.getLoadedEntityList().stream()
+    world
+        .getLoadedEntityList()
+        .parallelStream()
         .filter(entity -> EntityItem.class.equals(entity.getClass()))
         .filter(entity -> entity.onGround || entity.isAirBorne)
-        //        .forEach(e -> System.out.println(e.getClass().getName() + " " + e.ticksExisted));
         .map(entity -> createParticles(world, entity))
         .flatMap(particleStream -> particleStream)
         .forEach(particle -> Minecraft.getMinecraft().effectRenderer.addEffect(particle));
@@ -41,13 +45,11 @@ public class ItemsOnGroundForgeListener {
    * @return
    */
   private Stream<Particle> createParticles(World world, Entity entity) {
-    Particle[] particle = {
-      this.particleCloudFactory.createParticle(
-          0, world, entity.posX, entity.posY + 5.0, entity.posZ, 0.0, 1.0, 0.0),
-      this.particleFlameFactory.createParticle(
-          0, world, entity.posX, entity.posY, entity.posZ, 0.0, 0.2, 0.0)
-    };
-    return Stream.of(particle);
+    return Stream.of(
+        this.particleCloudFactory.createParticle(
+            0, world, entity.posX, entity.posY + 5.0, entity.posZ, 0.0, 1.0, 0.0),
+        this.particleFlameFactory.createParticle(
+            0, world, entity.posX, entity.posY, entity.posZ, 0.0, 0.2, 0.0));
   }
 
   /** Creates all needed factories. */
