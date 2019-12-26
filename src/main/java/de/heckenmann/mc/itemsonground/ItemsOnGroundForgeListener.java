@@ -34,6 +34,7 @@ public class ItemsOnGroundForgeListener {
         .filter(entity -> entity.onGround || entity.isAirBorne)
         .map(entity -> createParticles(world, entity))
         .flatMap(particleStream -> particleStream)
+        .sequential()
         .forEach(particle -> Minecraft.getMinecraft().effectRenderer.addEffect(particle));
   }
 
@@ -49,7 +50,7 @@ public class ItemsOnGroundForgeListener {
         this.particleCloudFactory.createParticle(
             0, world, entity.posX, entity.posY + 5.0, entity.posZ, 0.0, 1.0, 0.0),
         this.particleFlameFactory.createParticle(
-            0, world, entity.posX, entity.posY, entity.posZ, 0.0, 0.2, 0.0));
+            0, world, entity.posX, entity.posY + 0.5, entity.posZ, 0.0, 0.2, 0.0));
   }
 
   /** Creates all needed factories. */
