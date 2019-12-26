@@ -16,17 +16,25 @@ import java.util.stream.Stream;
 /** @author heckenmann */
 public class ItemsOnGroundForgeListener {
 
+  private long lastTriggerTimestamp = 0;
   private ParticleFlame.Factory particleFlameFactory;
   private IParticleFactory particleCloudFactory;
+  private final Configuration configuration;
 
-  public ItemsOnGroundForgeListener() {
+  public ItemsOnGroundForgeListener(Configuration configuration) {
+    this.configuration = configuration;
     this.createParticleFactory();
   }
 
   @SubscribeEvent
   public void onTick(FOVUpdateEvent event) {
     World world = Minecraft.getMinecraft().world;
-    if (world == null) return;
+    long currentTriggerTimestamp = System.currentTimeMillis();
+    long timestampDelta = currentTriggerTimestamp - this.lastTriggerTimestamp;
+    if (!this.configuration.isEnabled()
+        || world == null
+        || timestampDelta < this.configuration.getRefreshThreshold()) return;
+    this.lastTriggerTimestamp = currentTriggerTimestamp;
     world
         .getLoadedEntityList()
         .parallelStream()
