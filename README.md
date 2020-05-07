@@ -21,3 +21,6 @@ Installation instructions [here](#Installation).
 ![screenshot-spawner2](pic/spawner2.png)
 
 ## Installation
+1. Download a release
+1. Save the jar under your minecraft-folder/LabyMod/addons-1.12/
+1. Check out the config ingame.
