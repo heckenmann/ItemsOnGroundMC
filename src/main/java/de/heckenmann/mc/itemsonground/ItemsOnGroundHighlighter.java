@@ -1,27 +1,30 @@
 package de.heckenmann.mc.itemsonground;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleCloud;
+import net.minecraft.client.particle.ParticleFlame;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-/** @author heckenmann */
-public class ItemsOnGroundForgeListener {
+/**
+ * Dieser Listener highlightet Items, die auf dem Boden liegen.
+ *
+ * @author heckenmann
+ */
+public class ItemsOnGroundHighlighter {
 
   private long lastTriggerTimestamp = 0;
   private ParticleFlame.Factory particleFlameFactory;
   private ParticleCloud.Factory particleCloudFactory;
   private final Configuration configuration;
 
-  public ItemsOnGroundForgeListener(Configuration configuration) {
+  public ItemsOnGroundHighlighter(Configuration configuration) {
     this.configuration = configuration;
     this.createParticleFactory();
   }
@@ -31,16 +34,16 @@ public class ItemsOnGroundForgeListener {
     World world = Minecraft.getMinecraft().world;
     long currentTriggerTimestamp = System.currentTimeMillis();
     long timestampDelta = currentTriggerTimestamp - this.lastTriggerTimestamp;
-    if (!this.configuration.isEnabled()
-        || world == null
+    if (world == null
+        || !this.configuration.isEnabled()
         || timestampDelta < this.configuration.getRefreshThreshold()) return;
     this.lastTriggerTimestamp = currentTriggerTimestamp;
-    // Highlight Items on Ground
+
     world
         .getLoadedEntityList()
         .parallelStream()
         .filter(entity -> EntityItem.class.equals(entity.getClass()))
-        .filter(entity -> entity.onGround || entity.isAirBorne)
+        // .filter(entity -> entity.onGround || entity.isAirBorne)
         .map(entity -> createParticles(world, entity))
         .flatMap(particleStream -> particleStream)
         .sequential()

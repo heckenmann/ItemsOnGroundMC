@@ -7,6 +7,8 @@ public class Configuration {
    */
   private boolean enabled;
 
+  private boolean spawnerHighlightingEnabled;
+
   /*
    * Refresh-Threshold in ms.
    */
@@ -26,5 +28,13 @@ public class Configuration {
 
   public boolean isEnabled() {
     return enabled;
+  }
+
+  public boolean isSpawnerHighlightingEnabled() {
+    return spawnerHighlightingEnabled;
+  }
+
+  public void setSpawnerHighlightingEnabled(boolean spawnerHighlightingEnabled) {
+    this.spawnerHighlightingEnabled = spawnerHighlightingEnabled;
   }
 }
